@@ -2,170 +2,221 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>사주 풀이</title>
+    <title>궁합 보기</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-            padding: 20px;
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
         }
-        .container {
-            max-width: 700px;
-            margin: auto;
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        img {
-            max-width: 100%;
-            height: auto;
-        }
-        form div {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        input, select {
+        .form-container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
             width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
+            max-width: 900px; /* 가로 너비 확대 */
         }
-        .checkbox-group {
-            display: flex;
-            justify-content: space-between;
+        h1 {
+            color: #ff5722;
+            margin-bottom: 20px;
         }
-        .checkbox-group label {
+        form {
             display: flex;
+            flex-direction: column;
             align-items: center;
         }
-        .checkbox-group input {
-            width: auto;
-            margin-right: 5px;
+        .person-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin: 20px 0;
+        }
+        .person-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 45%;
+        }
+        .person-info h2 {
+            margin-bottom: 15px;
+            color: #333333;
+        }
+        .person-info label {
+            margin: 5px 0;
+            font-weight: bold;
+            align-self: flex-start;
+        }
+        input, select {
+            padding: 10px;
+            border: 1px solid #cccccc;
+            border-radius: 6px;
+            font-size: 16px;
+            width: 100%;
+            margin-bottom: 15px;
         }
         button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
+            margin-top: 20px;
+            padding: 12px;
+            background-color: #2c7be5;
+            color: #ffffff;
             border: none;
-            color: #fff;
+            border-radius: 6px;
             cursor: pointer;
-            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            max-width: 300px;
         }
         button:hover {
-            background-color: #45a049;
+            background-color: #1a68d1;
         }
-        .birthdate-group, .birthtime-group {
-            display: flex;
-            gap: 10px;
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            color: #2c7be5;
+            text-decoration: none;
         }
-        .birthdate-group select, .birthtime-group select {
-            flex: 1;
-        }
-        /* 추가 스타일링: 시간 선택 그룹 내 개별 선택 상자 너비 조정 */
-        .birthtime-group select.period {
-            flex: 0.5;
-        }
-        .birthtime-group select.hour, .birthtime-group select.minute {
-            flex: 1;
+        a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <img src="{{ url_for('static', filename='images/BAMM2.png') }}" alt="사주를 보고 있는 뱀">
-        <h2>사주 풀이 입력</h2>
-        <form action="/result" method="post">
-            <div>
-                <label for="birth_date">생년월일:</label>
-                <div class="birthdate-group">
-                    <!-- 연도 선택 -->
-                    <select id="birth_year" name="birth_year" required>
-                        <option value="">년</option>
-                        {% for year in range(1930, 2025) %}
-                            <option value="{{ year }}" {% if year == 1990 %}selected{% endif %}>{{ year }}년</option>
-                        {% endfor %}
-                    </select>
+    <div class="form-container">
+        <h1>궁합 보기</h1>
+        <form action="{{ url_for('compatibility_result') }}" method="post">
+            <div class="person-container">
+                <!-- 첫 번째 사람 정보 -->
+                <div class="person-info">
+                    <h2>사람 1</h2>
                     
-                    <!-- 월 선택 -->
-                    <select id="birth_month" name="birth_month" required>
-                        <option value="">월</option>
-                        {% for month in range(1, 13) %}
-                            <option value="{{ month }}" {% if month == 6 %}selected{% endif %}>{{ month }}월</option>
-                        {% endfor %}
-                    </select>
+                    <label for="name1">이름</label>
+                    <input type="text" id="name1" name="name1" value="김철수" required>
                     
-                    <!-- 일 선택 -->
-                    <select id="birth_day" name="birth_day" required>
-                        <option value="">일</option>
-                        {% for day in range(1, 32) %}
-                            <option value="{{ day }}" {% if day == 15 %}selected{% endif %}>{{ day }}일</option>
-                        {% endfor %}
+                    <!-- 생년월일 선택 -->
+                    <div class="birthdate-group">
+                        <!-- 연도 선택 -->
+                        <label for="birth_year1">생년</label>
+                        <select id="birth_year1" name="birth_year1" required>
+                            <option value="">년</option>
+                            {% for year in range(1930, 2025) %}
+                                <option value="{{ year }}" {% if year == 1990 %}selected{% endif %}>{{ year }}년</option>
+                            {% endfor %}
+                        </select>
+                        
+                        <!-- 월 선택 -->
+                        <label for="birth_month1">생월</label>
+                        <select id="birth_month1" name="birth_month1" required>
+                            <option value="">월</option>
+                            {% for month in range(1, 13) %}
+                                <option value="{{ month }}" {% if month == 5 %}selected{% endif %}>{{ month }}월</option>
+                            {% endfor %}
+                        </select>
+                        
+                        <!-- 일 선택 -->
+                        <label for="birth_day1">생일</label>
+                        <select id="birth_day1" name="birth_day1" required>
+                            <option value="">일</option>
+                            {% for day in range(1, 32) %}
+                                <option value="{{ day }}" {% if day == 10 %}selected{% endif %}>{{ day }}일</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <!-- MBTI 선택 -->
+                    <label for="mbti1">MBTI</label>
+                    <select id="mbti1" name="mbti1" required>
+                        <option value="">선택</option>
+                        <option value="ISTJ">ISTJ</option>
+                        <option value="ISFJ">ISFJ</option>
+                        <option value="INFJ">INFJ</option>
+                        <option value="INTJ">INTJ</option>
+                        <option value="ISTP">ISTP</option>
+                        <option value="ISFP">ISFP</option>
+                        <option value="INFP">INFP</option>
+                        <option value="INTP">INTP</option>
+                        <option value="ESTP">ESTP</option>
+                        <option value="ESFP">ESFP</option>
+                        <option value="ENFP">ENFP</option>
+                        <option value="ENTP">ENTP</option>
+                        <option value="ESTJ">ESTJ</option>
+                        <option value="ESFJ">ESFJ</option>
+                        <option value="ENFJ">ENFJ</option>
+                        <option value="ENTJ">ENTJ</option>
+                    </select>
+                </div>
+                
+                <!-- 두 번째 사람 정보 -->
+                <div class="person-info">
+                    <h2>사람 2</h2>
+                    
+                    <label for="name2">이름</label>
+                    <input type="text" id="name2" name="name2" value="이영희" required>
+                    
+                    <!-- 생년월일 선택 -->
+                    <div class="birthdate-group">
+                        <!-- 연도 선택 -->
+                        <label for="birth_year2">생년</label>
+                        <select id="birth_year2" name="birth_year2" required>
+                            <option value="">년</option>
+                            {% for year in range(1930, 2025) %}
+                                <option value="{{ year }}" {% if year == 1992 %}selected{% endif %}>{{ year }}년</option>
+                            {% endfor %}
+                        </select>
+                        
+                        <!-- 월 선택 -->
+                        <label for="birth_month2">생월</label>
+                        <select id="birth_month2" name="birth_month2" required>
+                            <option value="">월</option>
+                            {% for month in range(1, 13) %}
+                                <option value="{{ month }}" {% if month == 7 %}selected{% endif %}>{{ month }}월</option>
+                            {% endfor %}
+                        </select>
+                        
+                        <!-- 일 선택 -->
+                        <label for="birth_day2">생일</label>
+                        <select id="birth_day2" name="birth_day2" required>
+                            <option value="">일</option>
+                            {% for day in range(1, 32) %}
+                                <option value="{{ day }}" {% if day == 15 %}selected{% endif %}>{{ day }}일</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <!-- MBTI 선택 -->
+                    <label for="mbti2">MBTI</label>
+                    <select id="mbti2" name="mbti2" required>
+                        <option value="">선택</option>
+                        <option value="ISTJ">ISTJ</option>
+                        <option value="ISFJ">ISFJ</option>
+                        <option value="INFJ">INFJ</option>
+                        <option value="INTJ">INTJ</option>
+                        <option value="ISTP">ISTP</option>
+                        <option value="ISFP">ISFP</option>
+                        <option value="INFP">INFP</option>
+                        <option value="INTP">INTP</option>
+                        <option value="ESTP">ESTP</option>
+                        <option value="ESFP">ESFP</option>
+                        <option value="ENFP">ENFP</option>
+                        <option value="ENTP">ENTP</option>
+                        <option value="ESTJ">ESTJ</option>
+                        <option value="ESFJ">ESFJ</option>
+                        <option value="ENFJ">ENFJ</option>
+                        <option value="ENTJ">ENTJ</option>
                     </select>
                 </div>
             </div>
-            <div>
-                <label for="birth_time">태어난시간:</label>
-                <div class="birthtime-group">
-                    <!-- 오전/오후 선택 -->
-                    <select id="birth_period" name="birth_period" class="period" required>
-                        <option value="">오전/오후</option>
-                        <option value="오전" {% if '오전' == '오전' %}selected{% endif %}>오전</option>
-                        <option value="오후" {% if '오전' != '오후' %} {% endif %}>오후</option>
-                    </select>
-                    
-                    <!-- 시 선택 -->
-                    <select id="birth_hour" name="birth_hour" class="hour" required>
-                        <option value="">시</option>
-                        {% for hour in range(1, 13) %}
-                            <option value="{{ hour }}" {% if hour == 10 %}selected{% endif %}>{{ hour }}시</option>
-                        {% endfor %}
-                    </select>
-                    
-                    <!-- 분 선택 -->
-                    <select id="birth_minute" name="birth_minute" class="minute" required>
-                        <option value="">분</option>
-                        {% for minute in range(0, 60) %}
-                            <option value="{{ '%02d'|format(minute) }}" {% if minute == 30 %}selected{% endif %}>{{ '%02d'|format(minute) }}분</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
-            <div>
-                <label for="gender">성별:</label>
-                <select id="gender" name="gender" required>
-                    <option value="">선택하세요</option>
-                    <option value="남성" {% if '남성' == '남성' %}selected{% endif %}>남성</option>
-                    <option value="여성" {% if '남성' != '여성' %} {% endif %}>여성</option>
-                </select>
-            </div>
-            <div>
-                <label for="name">이름:</label>
-                <input type="text" id="name" name="name" value="홍길동" required>
-            </div>
-            <div>
-                <label for="mbti">MBTI:</label>
-                <input type="text" id="mbti" name="mbti" maxlength="4" value="INTJ" required>
-            </div>
-            <div>
-                <label for="blood_type">혈액형:</label>
-                <select id="blood_type" name="blood_type" required>
-                    <option value="">선택하세요</option>
-                    <option value="A형" {% if 'A형' == 'A형' %}selected{% endif %}>A형</option>
-                    <option value="B형" {% if 'A형' != 'B형' %} {% endif %}>B형</option>
-                    <option value="AB형" {% if 'A형' != 'AB형' %} {% endif %}>AB형</option>
-                    <option value="O형" {% if 'A형' != 'O형' %} {% endif %}>O형</option>
-                </select>
-            </div>
-            <div class="checkbox-group">
-                <label><input type="checkbox" name="wealth_luck" checked> 재물운 보기</label>
-                <label><input type="checkbox" name="marriage_luck" checked> 결혼운 보기</label>
-                <label><input type="checkbox" name="love_luck" checked> 연애운 보기</label>
-            </div>
-            <button type="submit">사주 풀이 받기</button>
+            
+            <button type="submit">궁합 보기</button>
         </form>
+        <a href="{{ url_for('home') }}">홈으로 돌아가기</a>
     </div>
 </body>
 </html>
