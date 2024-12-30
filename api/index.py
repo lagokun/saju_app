@@ -188,6 +188,6 @@ def compatibility_result():
 
     return render_template('compatibility_result.html', result=gpt_response)
 
-if __name__ == '__main__':
-    # 디버그 모드에서 실행 (배포 시에는 False로 설정)
-    app.run(debug=False)
+# if __name__ == '__main__':
+#     # 디버그 모드에서 실행 (배포 시에는 False로 설정)
+#     app.run(debug=False)
