@@ -4,12 +4,17 @@ import os
 from flask import Flask, render_template, request, redirect, url_for
 from openai import OpenAI
 from dotenv import load_dotenv
-# from vercel_wsgi import make_handler
+import httpx
+import asyncio
 
 # Load environment variables from .env file
 load_dotenv()
 
-app = Flask(__name__, template_folder="../templates")
+app = Flask(
+    __name__,
+    template_folder=os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'templates')),
+    static_folder=os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'static'))
+)
 
 # OpenAI API 키 설정
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))  # 여기에 실제 API 키를 입력하세요.
@@ -28,7 +33,7 @@ def compatibility():
     return render_template('compatibility.html')
 
 @app.route('/result', methods=['POST'])
-def result():
+async def result():
     # 사용자 입력 받기
 
     birth_year = request.form.get('birth_year')
@@ -91,15 +96,15 @@ def result():
     try:
         # OpenAI GPT API 호출
         response = client.chat.completions.create(
-            model="gpt-4",
+            model="gpt-4o-mini",
             messages=[
                 {"role": "system", "content": "당신은 한국의 전통 사주 전문가입니다."},
                 {"role": "user", "content": prompt}
             ],
-            max_tokens=1000,
-            temperature=0.7,
+            max_tokens=800,
+            temperature=0.3,
         )
-
+        # response = await get_openai_response(prompt)
         # GPT의 응답 받기
         gpt_response = response.choices[0].message.content.strip()
         gpt_response = gpt_response.lstrip()
@@ -114,7 +119,7 @@ def result():
 
 
 @app.route('/compatibility_result', methods=['POST'])
-def compatibility_result():
+async def compatibility_result():
     # 첫 번째 사람 정보
     name1 = request.form.get('name1')
     birth_year1 = request.form.get('birth_year1')
@@ -157,7 +162,7 @@ def compatibility_result():
     try:
         # OpenAI GPT API 호출
         response = client.chat.completions.create(
-            model="gpt-4",
+            model="gpt-4o-mini",
             messages=[
                 {"role": "system", "content": "당신은 한국의 전통 사주 전문가입니다."},
                 {"role": "user", "content": prompt}
@@ -165,6 +170,8 @@ def compatibility_result():
             max_tokens=1000,
             temperature=0.7,
         )
+        
+        # response = await get_openai_response(prompt)
 
         # GPT의 응답 받기
         gpt_response = response.choices[0].message.content.strip()
@@ -178,8 +185,8 @@ def compatibility_result():
 
     return render_template('compatibility_result.html', result=gpt_response)
 
-# if __name__ == '__main__':
-#     # 디버그 모드에서 실행 (배포 시에는 False로 설정)
-#     app.run(debug=False)
+if __name__ == '__main__':
+    # 디버그 모드에서 실행 (배포 시에는 False로 설정)
+    app.run(debug=False)
 
 
