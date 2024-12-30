@@ -78,6 +78,7 @@ def result():
     분석 항목: {lucks_text}
 
     사주는 한국 전통 사주 이론에 따라 해석해 주세요. 각 항목에 대해 자세하게 작성해 주세요.
+    모든 섹션은 간단하게 1-2줄 정도로 작성해 주세요.
 
     출력 결과는 다음 섹션을 반드시 포함해야 합니다:
     ### 기본 사주 구성
@@ -95,7 +96,7 @@ def result():
                 {"role": "system", "content": "당신은 한국의 전통 사주 전문가입니다."},
                 {"role": "user", "content": prompt}
             ],
-            max_tokens=800,
+            max_tokens=500,
             temperature=0.3,
         )
         # response = await get_openai_response(prompt)
