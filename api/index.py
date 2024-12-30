@@ -3,10 +3,6 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for
 from openai import OpenAI
-import httpx
-import asyncio
-
-# Load environment variables from .env file
 
 app = Flask(
     __name__,
@@ -31,7 +27,7 @@ def compatibility():
     return render_template('compatibility.html')
 
 @app.route('/result', methods=['POST'])
-async def result():
+def result():
     # 사용자 입력 받기
 
     birth_year = request.form.get('birth_year')
@@ -117,7 +113,7 @@ async def result():
 
 
 @app.route('/compatibility_result', methods=['POST'])
-async def compatibility_result():
+def compatibility_result():
     # 첫 번째 사람 정보
     name1 = request.form.get('name1')
     birth_year1 = request.form.get('birth_year1')
