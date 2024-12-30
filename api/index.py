@@ -3,6 +3,9 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for
 from openai import OpenAI
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(
     __name__,
@@ -11,8 +14,7 @@ app = Flask(
 )
 
 # OpenAI API 키 설정
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-client = OpenAI(api_key=OPENAI_API_KEY)  # 여기에 실제 API 키를 입력하세요.
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY")) # 여기에 실제 API 키를 입력하세요.
 
 @app.route('/')
 def home():
@@ -189,6 +191,6 @@ def compatibility_result():
 
     return render_template('compatibility_result.html', result=gpt_response)
 
-# if __name__ == '__main__':
-#     # 디버그 모드에서 실행 (배포 시에는 False로 설정)
-#     app.run(debug=False)
+if __name__ == '__main__':
+    # 디버그 모드에서 실행 (배포 시에는 False로 설정)
+    app.run(debug=False)
