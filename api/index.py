@@ -11,7 +11,8 @@ app = Flask(
 )
 
 # OpenAI API 키 설정
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))  # 여기에 실제 API 키를 입력하세요.
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+client = OpenAI(api_key=OPENAI_API_KEY)  # 여기에 실제 API 키를 입력하세요.
 
 @app.route('/')
 def home():
