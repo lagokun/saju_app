@@ -3,12 +3,10 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for
 from openai import OpenAI
-from dotenv import load_dotenv
 import httpx
 import asyncio
 
 # Load environment variables from .env file
-load_dotenv()
 
 app = Flask(
     __name__,
@@ -188,5 +186,3 @@ async def compatibility_result():
 # if __name__ == '__main__':
 #     # 디버그 모드에서 실행 (배포 시에는 False로 설정)
 #     app.run(debug=False)
-
-
