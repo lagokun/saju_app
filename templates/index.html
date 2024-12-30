@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>사주 풀이</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        form div {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .checkbox-group {
+            display: flex;
+            justify-content: space-between;
+        }
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+        }
+        .checkbox-group input {
+            width: auto;
+            margin-right: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .birthdate-group, .birthtime-group {
+            display: flex;
+            gap: 10px;
+        }
+        .birthdate-group select, .birthtime-group select {
+            flex: 1;
+        }
+        /* 추가 스타일링: 시간 선택 그룹 내 개별 선택 상자 너비 조정 */
+        .birthtime-group select.period {
+            flex: 0.5;
+        }
+        .birthtime-group select.hour, .birthtime-group select.minute {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="{{ url_for('static', filename='images/snake.png') }}" alt="사주를 보고 있는 뱀">
+        <h2>사주 풀이 입력</h2>
+        <form action="/result" method="post">
+            <div>
+                <label for="birth_date">생년월일:</label>
+                <div class="birthdate-group">
+                    <!-- 연도 선택 -->
+                    <select id="birth_year" name="birth_year" required>
+                        <option value="">년</option>
+                        {% for year in range(1930, 2025) %}
+                            <option value="{{ year }}" {% if year == 1990 %}selected{% endif %}>{{ year }}년</option>
+                        {% endfor %}
+                    </select>
+                    
+                    <!-- 월 선택 -->
+                    <select id="birth_month" name="birth_month" required>
+                        <option value="">월</option>
+                        {% for month in range(1, 13) %}
+                            <option value="{{ month }}" {% if month == 6 %}selected{% endif %}>{{ month }}월</option>
+                        {% endfor %}
+                    </select>
+                    
+                    <!-- 일 선택 -->
+                    <select id="birth_day" name="birth_day" required>
+                        <option value="">일</option>
+                        {% for day in range(1, 32) %}
+                            <option value="{{ day }}" {% if day == 15 %}selected{% endif %}>{{ day }}일</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div>
+                <label for="birth_time">태어난시간:</label>
+                <div class="birthtime-group">
+                    <!-- 오전/오후 선택 -->
+                    <select id="birth_period" name="birth_period" class="period" required>
+                        <option value="">오전/오후</option>
+                        <option value="오전" {% if '오전' == '오전' %}selected{% endif %}>오전</option>
+                        <option value="오후" {% if '오전' != '오후' %} {% endif %}>오후</option>
+                    </select>
+                    
+                    <!-- 시 선택 -->
+                    <select id="birth_hour" name="birth_hour" class="hour" required>
+                        <option value="">시</option>
+                        {% for hour in range(1, 13) %}
+                            <option value="{{ hour }}" {% if hour == 10 %}selected{% endif %}>{{ hour }}시</option>
+                        {% endfor %}
+                    </select>
+                    
+                    <!-- 분 선택 -->
+                    <select id="birth_minute" name="birth_minute" class="minute" required>
+                        <option value="">분</option>
+                        {% for minute in range(0, 60) %}
+                            <option value="{{ '%02d'|format(minute) }}" {% if minute == 30 %}selected{% endif %}>{{ '%02d'|format(minute) }}분</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div>
+                <label for="gender">성별:</label>
+                <select id="gender" name="gender" required>
+                    <option value="">선택하세요</option>
+                    <option value="남성" {% if '남성' == '남성' %}selected{% endif %}>남성</option>
+                    <option value="여성" {% if '남성' != '여성' %} {% endif %}>여성</option>
+                </select>
+            </div>
+            <div>
+                <label for="name">이름:</label>
+                <input type="text" id="name" name="name" value="홍길동" required>
+            </div>
+            <div>
+                <label for="mbti">MBTI:</label>
+                <input type="text" id="mbti" name="mbti" maxlength="4" value="INTJ" required>
+            </div>
+            <div>
+                <label for="blood_type">혈액형:</label>
+                <select id="blood_type" name="blood_type" required>
+                    <option value="">선택하세요</option>
+                    <option value="A형" {% if 'A형' == 'A형' %}selected{% endif %}>A형</option>
+                    <option value="B형" {% if 'A형' != 'B형' %} {% endif %}>B형</option>
+                    <option value="AB형" {% if 'A형' != 'AB형' %} {% endif %}>AB형</option>
+                    <option value="O형" {% if 'A형' != 'O형' %} {% endif %}>O형</option>
+                </select>
+            </div>
+            <div class="checkbox-group">
+                <label><input type="checkbox" name="wealth_luck" checked> 재물운 보기</label>
+                <label><input type="checkbox" name="marriage_luck" checked> 결혼운 보기</label>
+                <label><input type="checkbox" name="love_luck" checked> 연애운 보기</label>
+            </div>
+            <button type="submit">사주 풀이 받기</button>
+        </form>
+    </div>
+</body>
+</html>

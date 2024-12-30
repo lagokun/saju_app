@@ -1,0 +1,64 @@
+<!-- templates/home.html -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>운세 선택</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .selection-container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #2c7be5;
+            margin-bottom: 30px;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .buttons a {
+            padding: 15px 30px;
+            background-color: #4CAF50;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        .buttons a:hover {
+            background-color: #45a049;
+        }
+        /* 궁합 버튼 색상 다르게 */
+        .buttons a#compatibility {
+            background-color: #ff5722;
+        }
+        .buttons a#compatibility:hover {
+            background-color: #e64a19;
+        }
+    </style>
+</head>
+<body>
+    <div class="selection-container">
+        <h1>운세를 선택하세요</h1>
+        <div class="buttons">
+            <a href="{{ url_for('saju') }}">사주팔자 보기</a>
+            <a href="{{ url_for('compatibility') }}" id="compatibility">궁합 보기</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>궁합 결과</title>
+    <!-- Google Fonts 추가 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* 색상 변수를 정의하여 일관성 유지 */
+        :root {
+            --main-bg-color: #f0f4f8; /* 전체 배경색을 밝게 설정 */
+            --card-bg-color: #ffffff; /* 카드 배경색 */
+            --primary-color: #2c7be5; /* 주요 요소 색상 */
+            --button-bg-color: #2c7be5;
+            --button-hover-color: #1a68d1;
+            --result-border-color: #38c172; /* 결과 창의 테두리 색상 */
+            --text-color: #333333; /* 기본 텍스트 색상 */
+            --secondary-text-color: #555555; /* 보조 텍스트 색상 */
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        /* 모든 요소에 box-sizing을 border-box로 설정 */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--main-bg-color);
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg-color);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px var(--shadow-color);
+            box-sizing: border-box;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 30px;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .result {
+            white-space: pre-wrap;
+            background-color: #f9f9f9;
+            padding: 25px;
+            border-left: 5px solid var(--result-border-color);
+            border-radius: 8px;
+            margin-top: 20px;
+            overflow-wrap: break-word;
+            word-break: break-word;
+            max-width: 100%;
+            box-sizing: border-box;
+            color: var(--text-color);
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        button {
+            padding: 12px 25px;
+            background-color: var(--button-bg-color);
+            border: none;
+            color: #ffffff;
+            cursor: pointer;
+            border-radius: 6px;
+            margin-top: 30px;
+            font-size: 16px;
+            font-weight: 700;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: block;
+            width: 100%;
+            max-width: 200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        button:hover {
+            background-color: var(--button-hover-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px var(--shadow-color);
+        }
+
+        /* 반응형 디자인을 위한 미디어 쿼리 */
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+            .result {
+                padding: 20px;
+                font-size: 15px;
+            }
+            button {
+                padding: 14px 0;
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>궁합 결과</h2>
+        <div id="result" class="result">{{ result }}</div>
+        <form action="{{ url_for('compatibility') }}" method="get">
+            <button type="submit">다시 보기</button>
+        </form>
+    </div>
+
+    <!-- Marked.js 라이브러리 추가 -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        // 페이지 로드 시 마크다운을 HTML로 변환
+        document.addEventListener("DOMContentLoaded", function() {
+            const resultDiv = document.getElementById('result');
+            const markdownText = resultDiv.textContent || resultDiv.innerText;
+            // 마크다운을 HTML로 변환
+            const htmlContent = marked.parse(markdownText);
+            // 변환된 HTML을 삽입
+            resultDiv.innerHTML = htmlContent;
+        });
+    </script>
+</body>
+</html>
