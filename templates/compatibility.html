@@ -30,7 +30,7 @@
         form {
             display: flex;
             flex-direction: column;
-            align-items: center;
+                align-items: center;
         }
         .person-container {
             display: flex;
@@ -89,10 +89,29 @@
         a:hover {
             text-decoration: underline;
         }
+        /* 이미지 스타일 추가 */
+        .form-container img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px; /* 이미지와 제목 사이 간격 */
+        }
+
+        /* 반응형 디자인을 위한 미디어 쿼리 (선택 사항) */
+        @media (max-width: 768px) {
+            .person-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .person-info {
+                width: 80%;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="form-container">
+        <!-- 이미지 추가 -->
+        <img src="{{ url_for('static', filename='images/BAMM3.png') }}" alt="궁합 이미지">
         <h1>궁합 보기</h1>
         <form action="{{ url_for('compatibility_result') }}" method="post">
             <div class="person-container">
