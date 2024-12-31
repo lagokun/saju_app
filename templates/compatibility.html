@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>궁합 보기</title>
+    <title>업무 궁합 보기</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <style>
         body {
@@ -112,7 +112,7 @@
     <div class="form-container">
         <!-- 이미지 추가 -->
         <img src="{{ url_for('static', filename='images/BAMM3.png') }}" alt="궁합 이미지">
-        <h1>궁합 보기</h1>
+        <h1>업무 궁합 보기</h1>
         <form action="{{ url_for('compatibility_result') }}" method="post">
             <div class="person-container">
                 <!-- 첫 번째 사람 정보 -->
@@ -162,6 +162,12 @@
                                 <option value="{{ mbti }}">{{ mbti }}</option>
                             {% endfor %}
                         </select>
+                    </div>
+
+                    <!-- 직무 입력 필드 추가 -->
+                    <div class="form-group">
+                        <label for="job1">직무</label>
+                        <input type="text" id="job1" name="job1" value="모름" required>
                     </div>
                 </div>
                 
@@ -213,10 +219,16 @@
                             {% endfor %}
                         </select>
                     </div>
+
+                    <!-- 직무 입력 필드 추가 -->
+                    <div class="form-group">
+                        <label for="job2">직무</label>
+                        <input type="text" id="job2" name="job2" value="모름" required>
+                    </div>
                 </div>
             </div>
             
-            <button type="submit">궁합 보기</button>
+            <button type="submit">업무 궁합 보기</button>
         </form>
         <a href="{{ url_for('home') }}">홈으로 돌아가기</a>
     </div>

@@ -33,6 +33,7 @@ PROMOTION_MESSAGE = """
 
 # songs.json 파일 로드
 song_json_path = os.path.join(app.static_folder, 'json', 'song.json')
+# song_json_path = "/home/infidea/rebirth-hjun/saju_app/static/json/song.json"
 with open(song_json_path, 'r', encoding='utf-8') as f:
     SONG_LIST = json.load(f)
 
@@ -170,7 +171,7 @@ def result():
     
     # 노래 추천이 선택된 경우 추가 처리
     if '새해 노래 추천' in selected_lucks:
-        selected_songs = random.sample(song_list, 2)  # 중복 없이 2개 선택
+        selected_songs = "" # 중복 없이 2개 선택
     else:
         recommand_song = ""
     
@@ -204,6 +205,7 @@ def compatibility_result():
     birth_month1 = request.form.get('birth_month1')
     birth_day1 = request.form.get('birth_day1')
     mbti1 = request.form.get('mbti1')
+    job1 = request.form.get('job1')
     
     # 두 번째 사람 정보
     name2 = request.form.get('name2')
@@ -211,10 +213,11 @@ def compatibility_result():
     birth_month2 = request.form.get('birth_month2')
     birth_day2 = request.form.get('birth_day2')
     mbti2 = request.form.get('mbti2')
+    job2 = request.form.get('job2')
     
     # 입력 유효성 검사
     if not all([name1, birth_year1, birth_month1, birth_day1,
-                name2, birth_year2, birth_month2, birth_day2, mbti1, mbti2]):
+                name2, birth_year2, birth_month2, birth_day2, mbti1, mbti2, job1, job2]):
         return "모든 필드를 입력해주세요.", 400
     
     birth_date1 = f"{birth_year1}년 {birth_month1}월 {birth_day1}일"
@@ -226,24 +229,26 @@ def compatibility_result():
     
     # GPT에 보낼 프롬프트 생성
     prompt = f"""
-    두 사람의 생년월일, 이름, 그리고 MBTI 유형을 바탕으로 궁합을 풀이해 주세요.
+    두 사람의 생년월일, 이름, 그리고 MBTI 유형을 바탕으로 업무 궁합을 풀이해 주세요.
     모든 섹션은 적당하게 4-5줄 정도로 작성해 주세요.
 
     사람 1:
     이름: {name1}
     생년월일: {birth_date1}
     MBTI: {mbti1_display}
+    직무: {job1}
 
     사람 2:
     이름: {name2}
     생년월일: {birth_date2}
     MBTI: {mbti2_display}
+    직무무: {job2}
 
-    궁합을 한국 전통 사주 이론과 MBTI 유형을 고려하여 분석해 주세요. 다음 섹션을 반드시 포함해야 합니다:
+    업무 궁합을 한국 전통 사주 이론과 MBTI 유형을 고려하여 분석해 주세요. 다음 섹션을 반드시 포함해야 합니다:
     ### 기본 정보
-    ### 사주 기반 상호 호환성
-    ### MBTI 기반 상호 호환성
-    ### 장점과 단점
+    ### 사주 기반 업무 궁합
+    ### MBTI 기반 업무 궁합
+    ### 사주, MBTI 기반 업무 궁합 총평
     ### 총평
     """
 
