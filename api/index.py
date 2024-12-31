@@ -34,32 +34,9 @@ PROMOTION_MESSAGE = """
 
 # songs.json 파일 로드
 song_json_path = os.path.join(app.static_folder, 'json', 'song.json')
-song_json_path = "/home/infidea/rebirth-hjun/saju_app/static/json/song.json"
+# song_json_path = "/home/infidea/rebirth-hjun/saju_app/static/json/song.json"
 with open(song_json_path, 'r', encoding='utf-8') as f:
     SONG_LIST = json.load(f)
-
-# song_list = [
-#     '', '', '',
-#     '', '', '',
-#     '', '',
-#     '', '', '퀸카 (Queencard) - (여자)아이들',
-#     'Forever Young - BLACKPINK', '아주 NICE - 세븐틴 (SEVENTEEN)', 'HAPPY - DAY6 (데이식스)',
-#     '가보자 - Xydo (시도)', '반짝, 빛을 내 - 윤하 (YOUNHA)', '고민보다 Go - 방탄소년단',
-#     '소확행 - 임창정', '아모르 파티 - 김연자', '니 팔자야 - 노라조', '시작 - 가호 (Gaho)',
-#     'Go! - 도겸', 'Butterfly - 러브홀릭스', '슈퍼스타 - 이한철',
-#     'Bravo My Life (브라보 마이 라이프) - 봄여름가을겨울', '장가가고 싶은 남자 시집가고 싶은 여자 - 장미여관',
-#     '행복의 주문 - 커피소년', '성공 (Feat. JYP) - 유브이 (UV)', '수고했어, 오늘도 - 옥상달빛',
-#     '돈에 깔려 죽어 (Feat. Ja Mezz) - 수퍼비 (SUPERBEE), 트웰브 (twlv)', '엄지 척 - 홍진영',
-#     '결혼해줄래 - 이승기', '꽃길 - BIGBANG (빅뱅)', '꽃길만 걷게 해줄게 - 데이브레이크 (DAYBREAK)',
-#     '승천가 - Stray Kids (스트레이 키즈)', '별일 없이 산다 - 장기하와 얼굴들', '효도합시다 (prod. 플레이사운드) - 정동원',
-#     'Hello Future - NCT DREAM', '', '',
-#     '', '', '',
-#     '', '', '', '', '',
-#     '', '', '', '', '',
-#     '', '', '', '',
-#     '', '', '', '', '',
-
-# ]
 
 @app.route('/')
 def home():
