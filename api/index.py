@@ -1,8 +1,8 @@
-# app.py
-
 import os
 from flask import Flask, render_template, request, redirect, url_for
-from openai import OpenAI
+from openai import OpenAI  # OpenAI 라이브러리 임포트 수정
+from dotenv import load_dotenv
+load_dotenv()
 
 app = Flask(
     __name__,
@@ -11,7 +11,7 @@ app = Flask(
 )
 
 # OpenAI API 키 설정
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY")) # 여기에 실제 API 키를 입력하세요.
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY")) # 여기에 실제 API 키를 입력하세요.# 환경 변수에서 API 키 로드
 
 @app.route('/')
 def home():
@@ -43,11 +43,13 @@ def result():
     birth_hour = request.form.get('birth_hour')
     birth_minute = request.form.get('birth_minute')
     
-    # 태어난 시간 유효성 검사
-    if not all([birth_period, birth_hour, birth_minute]):
-        return "태어난 시간을 모두 입력해주세요.", 400
-    
-    birth_time = f"{birth_period} {birth_hour}시 {birth_minute}분"
+    # 태어난 시간 유효성 검사 및 처리
+    if birth_period == '모름':
+        birth_time = "모름"
+    else:
+        if not all([birth_period, birth_hour, birth_minute]):
+            return "태어난 시간을 모두 입력해주세요.", 400
+        birth_time = f"{birth_period} {birth_hour}시 {birth_minute}분"
     
     gender = request.form.get('gender')
     name = request.form.get('name')
@@ -77,7 +79,7 @@ def result():
     분석 항목: {lucks_text}
 
     사주는 한국 전통 사주 이론에 따라 해석해 주세요. 각 항목에 대해 자세하게 작성해 주세요.
-    모든 섹션은 간단하게 1-2줄 정도로 작성해 주세요.
+    모든 섹션은 간단하게 2-3줄 정도로 작성해 주세요.
 
     출력 결과는 다음 섹션을 반드시 포함해야 합니다:
     ### 기본 사주 구성
@@ -85,20 +87,23 @@ def result():
     ### 결혼운
     ### 연애운
     ### 총평
+    ### 향후 계획
+
+    ### 향후 계획
+    1월 중 webex 봇을 통한 일일 사주받기와 일일 일정 알림 기능이 추가될 예정입니다. 사주뺌 많관부🐍
     """
 
     try:
         # OpenAI GPT API 호출
         response = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="gpt-4",
             messages=[
                 {"role": "system", "content": "당신은 한국의 전통 사주 전문가입니다."},
                 {"role": "user", "content": prompt}
             ],
-            max_tokens=500,
+            max_tokens=1000,
             temperature=0.3,
         )
-        # response = await get_openai_response(prompt)
         # GPT의 응답 받기
         gpt_response = response.choices[0].message.content.strip()
         gpt_response = gpt_response.lstrip()
@@ -161,7 +166,8 @@ def compatibility_result():
     ### 장점과 단점
     ### 총평
 
-    각 섹션은 간단하게 2-3문장으로 작성해 주세요.
+    ### 향후 사주뺌 계획
+    1월 중 webex 봇을 통한 일일 사주, 일일 일정 알림 기능이 추가될 예정입니다. 사주뺌 많관부🐍
     """
 
     try:

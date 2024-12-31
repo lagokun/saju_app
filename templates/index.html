@@ -72,7 +72,40 @@
         .birthtime-group select.hour, .birthtime-group select.minute {
             flex: 1;
         }
+        /* 모름 선택 시 비활성화 스타일 */
+        .disabled {
+            background-color: #e9e9e9;
+        }
     </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const periodSelect = document.getElementById('birth_period');
+            const hourSelect = document.getElementById('birth_hour');
+            const minuteSelect = document.getElementById('birth_minute');
+
+            function toggleTimeFields() {
+                if (periodSelect.value === '모름') {
+                    hourSelect.value = '';
+                    minuteSelect.value = '';
+                    hourSelect.disabled = true;
+                    minuteSelect.disabled = true;
+                    hourSelect.classList.add('disabled');
+                    minuteSelect.classList.add('disabled');
+                } else {
+                    hourSelect.disabled = false;
+                    minuteSelect.disabled = false;
+                    hourSelect.classList.remove('disabled');
+                    minuteSelect.classList.remove('disabled');
+                }
+            }
+
+            // 초기 상태 체크
+            toggleTimeFields();
+
+            // 이벤트 리스너 추가
+            periodSelect.addEventListener('change', toggleTimeFields);
+        });
+    </script>
 </head>
 <body>
     <div class="container">
@@ -116,6 +149,7 @@
                         <option value="">오전/오후</option>
                         <option value="오전" {% if '오전' == '오전' %}selected{% endif %}>오전</option>
                         <option value="오후" {% if '오전' != '오후' %} {% endif %}>오후</option>
+                        <option value="모름" {% if '오전' == '모름' %}selected{% endif %}>모름</option>
                     </select>
                     
                     <!-- 시 선택 -->
