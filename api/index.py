@@ -23,17 +23,18 @@ PROMOTION_MESSAGE = """
 아마따 에이전트로 오늘 하루 대화 요약, 할일 관리를 시작하시고 잠시만 기다려주세요!⏳
 
 📝아마따 에이전트 등록 방법
+
 1. webex 방에 "아마따 에이전트" 추가
 2. @아마따 등록
 3. 18시마다 대화 자동 요약, 할일이 정리되어 메시지가 옵니다.
-🔒아마따 에이전트는 대화 내용을 저장하지 않습니다. 안심하고 사용하세요!
 
+🔒아마따 에이전트는 대화 내용을 저장하지 않습니다. 안심하고 사용하세요!
 아마따 에이전트 문의: AI Tech Lab 박주혜 프로
 """
 
 # songs.json 파일 로드
 song_json_path = os.path.join(app.static_folder, 'json', 'song.json')
-# song_json_path = "/home/infidea/rebirth-hjun/saju_app/static/json/song.json"
+song_json_path = "/home/infidea/rebirth-hjun/saju_app/static/json/song.json"
 with open(song_json_path, 'r', encoding='utf-8') as f:
     SONG_LIST = json.load(f)
 
@@ -250,6 +251,7 @@ def compatibility_result():
     ### MBTI 기반 업무 궁합
     ### 사주, MBTI 기반 업무 궁합 총평
     ### 총평
+    ### 업무 궁합 점수
     """
 
     try:
@@ -275,6 +277,8 @@ def compatibility_result():
         gpt_response = f"오류가 발생했습니다: {str(e)}"
         
     full_response = f"{gpt_response}\n{PROMOTION_MESSAGE}"
+    
+    # print(full_response)
     
     return render_template('compatibility_result.html', result=full_response)
 
