@@ -55,12 +55,13 @@ def result():
     name = request.form.get('name')
     mbti = request.form.get('mbti')
     blood_type = request.form.get('blood_type')
+    newyear_luck = '재물운' if request.form.get('2025_luck') else None
     wealth_luck = '재물운' if request.form.get('wealth_luck') else None
     marriage_luck = '결혼운' if request.form.get('marriage_luck') else None
     love_luck = '연애운' if request.form.get('love_luck') else None
 
     # 선택된 운세 항목
-    selected_lucks = [luck for luck in [wealth_luck, marriage_luck, love_luck] if luck]
+    selected_lucks = [luck for luck in [newyear_luck, wealth_luck, marriage_luck, love_luck] if luck]
     if selected_lucks:
         lucks_text = ', '.join(selected_lucks)
     else:
@@ -83,6 +84,7 @@ def result():
 
     출력 결과는 다음 섹션을 반드시 포함해야 합니다:
     ### 기본 사주 구성
+    ### 2025년 신년운세
     ### 재물운
     ### 결혼운
     ### 연애운
