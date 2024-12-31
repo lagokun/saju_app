@@ -1,8 +1,8 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for
 from openai import OpenAI  # OpenAI 라이브러리 임포트 수정
-from dotenv import load_dotenv
-load_dotenv()
+# from dotenv import load_dotenv
+# load_dotenv()
 
 app = Flask(
     __name__,
