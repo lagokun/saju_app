@@ -96,7 +96,7 @@ def result():
     try:
         # OpenAI GPT API 호출
         response = client.chat.completions.create(
-            model="gpt-4",
+            model="gpt-4o-mini",
             messages=[
                 {"role": "system", "content": "당신은 한국의 전통 사주 전문가입니다."},
                 {"role": "user", "content": prompt}
@@ -148,6 +148,7 @@ def compatibility_result():
     # GPT에 보낼 프롬프트 생성
     prompt = f"""
     두 사람의 생년월일, 이름, 그리고 MBTI 유형을 바탕으로 궁합을 풀이해 주세요.
+    모든 섹션은 간단하게 2-3줄 정도로 작성해 주세요.
 
     사람 1:
     이름: {name1}
@@ -173,7 +174,7 @@ def compatibility_result():
     try:
         # OpenAI GPT API 호출
         response = client.chat.completions.create(
-            model="gpt-4",  # 모델 이름 수정 (예: "gpt-4" 사용)
+            model="gpt-4o-mini",  # 모델 이름 수정 (예: "gpt-4" 사용)
             messages=[
                 {"role": "system", "content": "당신은 한국의 전통 사주 전문가이자 MBTI 전문가입니다."},
                 {"role": "user", "content": prompt}
