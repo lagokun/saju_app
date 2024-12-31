@@ -32,7 +32,8 @@ PROMOTION_MESSAGE = """
 """
 
 # songs.json 파일 로드
-with open('song.json', 'r', encoding='utf-8') as f:
+song_json_path = os.path.join(app.static_folder, 'json', 'song.json')
+with open(song_json_path, 'r', encoding='utf-8') as f:
     SONG_LIST = json.load(f)
 
 # song_list = [
