@@ -26,6 +26,7 @@
         h1 {
             color: #2c7be5;
             margin-bottom: 30px;
+            white-space: pre-line; /* 줄 바꿈을 적용하기 위해 추가 */
         }
         .buttons {
             display: flex;
@@ -83,7 +84,11 @@
     <div class="selection-container">
         <!-- 이미지 경로 수정 -->
         <img src="{{ url_for('static', filename='images/BAMM4.png') }}" alt="사주뺌">
-        <h1>보고 싶은 운세를 선택해주세요</h1>
+        <h1>
+            BBAAAM! 나는 신년운세 봐주는 뺌이야! 🐍<br>
+            너의 2025년을 응원해! ✨<br>
+            보고 싶은 운세를 선택해봐 뺌! 🔮
+        </h1>
         <div class="buttons">
             <a href="{{ url_for('saju') }}">사주팔자 보기</a>
             <a href="{{ url_for('compatibility') }}" id="compatibility">업무 궁합 보기</a>
