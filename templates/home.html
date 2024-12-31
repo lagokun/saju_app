@@ -28,6 +28,15 @@
             margin-bottom: 30px;
             white-space: pre-line; /* 줄 바꿈을 적용하기 위해 추가 */
         }
+        h2 {
+            color: #2c7be5; /* h1과 동일한 색상 적용 */
+            margin-top: -11px;
+            line-height: 1.8; /* 줄 간격 조정 (기본값보다 늘림) */
+        }
+        h3 {
+            color: #2c7be5; /* h1과 동일한 색상 적용 */
+            margin-top: 8px;
+        }
         .buttons {
             display: flex;
             justify-content: center;
@@ -84,11 +93,11 @@
     <div class="selection-container">
         <!-- 이미지 경로 수정 -->
         <img src="{{ url_for('static', filename='images/BAMM4.png') }}" alt="사주뺌">
-        <h1>
+        <h2>
             BBAAAM! 나는 신년운세 봐주는 뺌이야! 🐍<br>
             너의 2025년을 응원해! ✨<br>
             보고 싶은 운세를 선택해봐 뺌! 🔮
-        </h1>
+        </h2>
         <div class="buttons">
             <a href="{{ url_for('saju') }}">사주팔자 보기</a>
             <a href="{{ url_for('compatibility') }}" id="compatibility">업무 궁합 보기</a>
