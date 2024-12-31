@@ -1,4 +1,3 @@
-<!-- templates/home.html -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -21,6 +20,8 @@
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             text-align: center;
+            max-width: 40%; /* 컨테이너의 최대 너비 설정 */
+            box-sizing: border-box;
         }
         h1 {
             color: #2c7be5;
@@ -30,6 +31,7 @@
             display: flex;
             justify-content: center;
             gap: 20px;
+            flex-wrap: wrap; /* 버튼이 화면 크기에 맞게 줄 바꿈되도록 설정 */
         }
         .buttons a {
             padding: 15px 30px;
@@ -39,6 +41,8 @@
             border-radius: 6px;
             font-size: 16px;
             transition: background-color 0.3s ease;
+            flex: 1 1 auto; /* 버튼이 컨테이너 너비에 맞게 확장되도록 설정 */
+            max-width: 200px; /* 버튼의 최대 너비 설정 */
         }
         .buttons a:hover {
             background-color: #45a049;
@@ -50,14 +54,40 @@
         .buttons a#compatibility:hover {
             background-color: #e64a19;
         }
+        /* 새해 노래 추천 버튼 색상 다르게 */
+        .buttons a#newyearsong {
+            background-color: #2196F3;
+        }
+        .buttons a#newyearsong:hover {
+            background-color: #1976D2;
+        }
+        /* 이미지 반응형 설정 */
+        .selection-container img {
+            max-width: 80%;
+            height: auto;
+            margin-bottom: 20px; /* 이미지와 제목 사이의 간격 조정 */
+        }
+        /* 반응형 디자인 추가 (필요 시) */
+        @media (max-width: 600px) {
+            .selection-container {
+                padding: 20px;
+            }
+            .buttons a {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="selection-container">
-        <h1>운세를 선택하세요</h1>
+        <!-- 이미지 경로 수정 -->
+        <img src="{{ url_for('static', filename='images/BAMM4.png') }}" alt="사주뺌">
+        <h1>보고 싶은 운세를 선택해주세요</h1>
         <div class="buttons">
             <a href="{{ url_for('saju') }}">사주팔자 보기</a>
             <a href="{{ url_for('compatibility') }}" id="compatibility">궁합 보기</a>
+            <a href="{{ url_for('newyearsong') }}" id="newyearsong">2025년 새해 노래 추천</a>
         </div>
     </div>
 </body>
