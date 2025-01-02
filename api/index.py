@@ -1,6 +1,7 @@
 import os
 import json
 import random
+from korean_lunar_calendar import KoreanLunarCalendar
 from flask import Flask, render_template, request, redirect, url_for
 from openai import OpenAI  # OpenAI 라이브러리 임포트 수정
 # from dotenv import load_dotenv
@@ -68,6 +69,13 @@ def result():
     if not all([birth_year, birth_month, birth_day]):
         return "생년월일을 모두 입력해주세요.", 400
     
+    print()
+    calendar = KoreanLunarCalendar()
+    # params : year(년), month(월), day(일)
+    calendar.setSolarDate(int(birth_year), int(birth_month), int(birth_day))
+    
+    print(calendar.LunarIsoFormat())
+    
     birth_date = f"{birth_year}년 {birth_month}월 {birth_day}일"
     
     birth_period = request.form.get('birth_period')
@@ -106,9 +114,9 @@ def result():
     
     # 기본적인 prompt 정보
     base_prompt = f"""
-    아래의 정보를 바탕으로 사주를 풀이해 주세요.
+    아래의 정보를 바탕으로 사주를 풀이해 주세요. 양력으로만 사주를 풀이해 주세요.
 
-    생년월일: {birth_date}
+    생년월일: 양력: {birth_date} 음력: {calendar.LunarIsoFormat()}
     태어난 시간: {birth_time}
     성별: {gender}
     이름: {name}
