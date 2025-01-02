@@ -114,7 +114,7 @@ def result():
     
     # 기본적인 prompt 정보
     base_prompt = f"""
-    아래의 정보를 바탕으로 사주를 풀이해 주세요. 양력으로만 사주를 풀이해 주세요.
+    아래의 정보를 바탕으로 사주를 풀이해 주세요.
 
     생년월일: 양력: {birth_date} 음력: {calendar.LunarIsoFormat()}
     태어난 시간: {birth_time}
