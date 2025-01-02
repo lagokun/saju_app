@@ -37,7 +37,8 @@
         }
         .checkbox-group {
             display: flex;
-            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         .checkbox-group label {
             display: flex;
@@ -69,7 +70,8 @@
         .birthtime-group select.period {
             flex: 0.5;
         }
-        .birthtime-group select.hour, .birthtime-group select.minute {
+        .birthtime-group select.hour,
+        .birthtime-group select.minute {
             flex: 1;
         }
         /* 모름 선택 시 비활성화 스타일 */
@@ -113,8 +115,9 @@
         <img src="{{ url_for('static', filename='images/BAMM3.png') }}" alt="사주를 보고 있는 뱀">
         <h2>사주 풀이 입력</h2>
         <form action="/result" method="post">
+            <!-- 양력으로 입력한다는 안내 추가 -->
             <div>
-                <label for="birth_date">생년월일:</label>
+                <label for="birth_date">생년월일 (양력):</label>
                 <div class="birthdate-group">
                     <!-- 연도 선택 -->
                     <select id="birth_year" name="birth_year" required>
@@ -142,9 +145,9 @@
                 </div>
             </div>
             <div>
-                <label for="birth_time">태어난시간:</label>
+                <label for="birth_time">태어난 시간:</label>
                 <div class="birthtime-group">
-                    <!-- 오전/오후 선택 -->
+                    <!-- 오전/오후/모름 -->
                     <select id="birth_period" name="birth_period" class="period" required>
                         <option value="">오전/오후</option>
                         <option value="오전" {% if '오전' == '오전' %}selected{% endif %}>오전</option>
@@ -181,9 +184,30 @@
                 <label for="name">이름:</label>
                 <input type="text" id="name" name="name" value="홍길동" required>
             </div>
+            <!-- MBTI를 셀렉트 박스로 변경 및 '모름' 추가 -->
             <div>
                 <label for="mbti">MBTI:</label>
-                <input type="text" id="mbti" name="mbti" maxlength="4" value="INTJ" required>
+                <select id="mbti" name="mbti" required>
+                    <option value="">선택하세요</option>
+                    <!-- 대표적인 MBTI 유형들 -->
+                    <option value="ISTJ">ISTJ</option>
+                    <option value="ISFJ">ISFJ</option>
+                    <option value="INFJ">INFJ</option>
+                    <option value="INTJ" selected>INTJ</option>
+                    <option value="ISTP">ISTP</option>
+                    <option value="ISFP">ISFP</option>
+                    <option value="INFP">INFP</option>
+                    <option value="INTP">INTP</option>
+                    <option value="ESTP">ESTP</option>
+                    <option value="ESFP">ESFP</option>
+                    <option value="ENFP">ENFP</option>
+                    <option value="ENTP">ENTP</option>
+                    <option value="ESTJ">ESTJ</option>
+                    <option value="ESFJ">ESFJ</option>
+                    <option value="ENFJ">ENFJ</option>
+                    <option value="ENTJ">ENTJ</option>
+                    <option value="모름">모름</option>
+                </select>
             </div>
             <div>
                 <label for="blood_type">혈액형:</label>
