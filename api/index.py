@@ -116,7 +116,7 @@ def result():
     base_prompt = f"""
     아래의 정보를 바탕으로 사주를 풀이해 주세요.
 
-    생년월일: 양력: {birth_date} 음력: {calendar.LunarIsoFormat()}
+    생년월일: 양력: {birth_date} 음력: {calendar.LunarIsoFormat().split("-")[0]}년 {calendar.LunarIsoFormat().split("-")[1]}월 {calendar.LunarIsoFormat().split("-")[2]}일
     태어난 시간: {birth_time}
     성별: {gender}
     이름: {name}
